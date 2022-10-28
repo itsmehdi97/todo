@@ -1,0 +1,48 @@
+version: "3.9"  # optional since v1.27.0
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:80"
+    environment:
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+      - SECRET_KEY=SECRET
+      - ALGORITHM=HS256
+      - DB_USER=user
+      - DB_PASSWORD=pass
+      - DB_HOST=db
+      - DATABASE=tododb
+    volumes:
+      - ./src:/src
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    environment:
+        - POSTGRES_PASSWORD=${POSTGERS_PASSWORD:-pass}
+        - POSTGRES_USER=${POSTGRES_USER:-user}
+    # volumes:
+    #     - service-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - 5452:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-user@domain.com}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-pass}
+    volumes:
+      - pgadmin-servers:/pgadmin4/servers.json
+    logging:
+      driver: none
+    depends_on:
+      - db
+
+
+volumes:
+  service-data:
+  pgadmin-servers:
