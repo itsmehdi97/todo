@@ -1,14 +1,11 @@
 import abc
-from typing import List, Type, Generic, TypeVar, Optional
-from datetime import datetime
+from typing import List, Optional
 
 from sqlalchemy import select
-from sqlalchemy import func
 
-from db import Session
 import models
 import schemas
-
+from db import Session
 
 
 class BaseRepository(abc.ABC):

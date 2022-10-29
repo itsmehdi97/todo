@@ -6,7 +6,6 @@ from fastapi import Depends
 
 from adapters.repository import BaseRepository
 
-import asyncio
 
 def get_session_factory(request: Request):
     return request.app.state._db

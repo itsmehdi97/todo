@@ -8,9 +8,6 @@ from sqlalchemy import (
     ForeignKey
 )
 
-import schemas
-
-
 
 mapper_registry = registry()
 Base = mapper_registry.generate_base()

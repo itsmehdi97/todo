@@ -3,7 +3,6 @@ from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 
 import schemas
-
 from jwt_utils import JWTUtils
 from core.config import get_settings
 

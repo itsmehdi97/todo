@@ -2,7 +2,7 @@ import json
 from typing import Optional
 from datetime import datetime, timezone, timedelta
 
-from core.config import Settings, get_settings
+from core.config import get_settings
 
 from jose import jws, jwt
 from jose.utils import base64url_decode
