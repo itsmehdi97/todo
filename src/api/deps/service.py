@@ -4,7 +4,7 @@ from fastapi import Depends
 
 import schemas
 from services.base import BaseService
-from services.todos import TodoService, DeveloperTodoService, ManagerTodoService
+from services.permissions import PermService, DeveloperPermService, ManagerPermService
 from adapters.repository import BaseRepository
 from api.deps.db import get_repository
 from api.deps.auth import current_user
@@ -19,14 +19,14 @@ def get_service(*,
     ) -> Type[BaseService]:
         return service_type(repo)
 
-    def _get_todo_service(
+    def _get_permissions_service(
         repo: BaseRepository = Depends(get_repository(repo_type)),
         user: schemas.User = Depends(current_user)
     ) -> Type[BaseService]:
-        return DeveloperTodoService(repo) \
+        return DeveloperPermService(repo) \
                 if user.role == schemas.Role.DEV \
-                else ManagerTodoService(repo)
+                else ManagerPermService(repo)
     
-    return _get_todo_service \
-        if issubclass(service_type, TodoService) \
+    return _get_permissions_service \
+        if issubclass(service_type, PermService) \
         else _get_service
