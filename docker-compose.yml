@@ -13,8 +13,8 @@ services:
       - DB_PASSWORD=pass
       - DB_HOST=db
       - DATABASE=tododb
-    volumes:
-      - ./src:/src
+    # volumes:
+    #   - ./src:/src
     depends_on:
       - db
 
@@ -26,21 +26,21 @@ services:
     # volumes:
     #     - service-data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5432:5432 # TODO: do not expose
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    ports:
-      - 5452:80
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-user@domain.com}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-pass}
-    volumes:
-      - pgadmin-servers:/pgadmin4/servers.json
-    logging:
-      driver: none
-    depends_on:
-      - db
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   ports:
+  #     - 5452:80
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-user@domain.com}
+  #     - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-pass}
+  #   volumes:
+  #     - pgadmin-servers:/pgadmin4/servers.json
+  #   logging:
+  #     driver: none
+  #   depends_on:
+  #     - db
 
 
 volumes:
