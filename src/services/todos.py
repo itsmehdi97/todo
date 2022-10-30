@@ -7,25 +7,18 @@ from services.base import BaseService
 
 
 class TodoService(BaseService):
-    async def create_task(
-        self, task: schemas.TaskCreate, *, request_user: schemas.User
-    ) -> models.Task:
+    async def create_task(self, task: schemas.TaskCreate) -> models.Task:
         return await self.repo.create_task(task)
 
-    async def assign_task(
-        self, *, task_id: int, user_id: int, request_user=schemas.User
-    ) -> None:
+    async def assign_task(self, *, task_id: int, user_id: int) -> None:
         task = await self.repo.get_task_by_id(task_id)
         if not task:
             raise exc.NotFound("task not found.")
         await self.repo.asign_task(task_id=task_id, user_id=user_id)
 
-    async def assign_project(
-        self, *, project_id: int, user_id: int, request_user=schemas.User
-    ) -> None:
+    async def assign_project(self, *, project_id: int, user_id: int) -> None:
         await self.repo.assign_project(project_id=project_id, user_id=user_id)
         
-    
     async def create_project(
         self, project: schemas.ProjectCreate, *, request_user: schemas.User
     ) -> models.Project:
@@ -36,7 +29,6 @@ class TodoService(BaseService):
         self,
         *,
         project_id: int,
-        request_user: schemas.User,
         user_id: Optional[int] = None
     ) -> List[models.Task]:
         project = await self.repo.get_project_by_id(project_id)

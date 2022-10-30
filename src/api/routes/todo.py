@@ -29,7 +29,7 @@ async def project_tasks(
             detail="Operation not permitted")
     try:
         return await todo_svc.get_project_tasks(
-            project_id=project_id, user_id=user_id, request_user=user)
+            project_id=project_id, user_id=user_id)
     except exc.NotFound as e:
         raise HTTPException(status_code=404, detail=str(e))
 
