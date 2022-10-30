@@ -2,6 +2,7 @@ import abc
 
 import schemas
 from services.base import BaseService
+from services import exceptions as exc
 
 
 class PermService(BaseService):
@@ -46,6 +47,8 @@ class ManagerPermService(PermService):
 
     async def can_assign_task(self, *, task_id: int, request_user: schemas.User) -> bool:
         task = await self.repo.get_task_by_id(task_id)
+        if not task:
+            raise exc.NotFound("task not found")
         return await self._owns(user_id=request_user.id, project_id=task.project_id)
 
     async def can_assign_project(self, *, project_id: int, request_user: schemas.User) -> bool:
@@ -64,6 +67,8 @@ class DeveloperPermService(PermService):
 
     async def can_assign_task(self, *, task_id: int, request_user: schemas.User) -> bool:
         task = await self.repo.get_task_by_id(task_id)
+        if not task:
+            raise exc.NotFound("task not found")
         return await self._memberof(user_id=request_user.id, project_id=task.project_id)
 
     async def can_assign_project(self, *, project_id: int, request_user: schemas.User) -> bool:
